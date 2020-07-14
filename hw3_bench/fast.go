@@ -27,8 +27,7 @@ func FastSearch(out io.Writer) {
 	uniqueBrowsers := 0
 	foundUsers := ""
 
-	//Сделать лайн как байты
-	lines := strings.Split(string(fileContents), "\n")
+	byteLines := bytes.Split(fileContents, []byte("\n"), len(byteLines))
 
 	users := make([]map[string]interface{}, 0)
 	for _, line := range lines {
