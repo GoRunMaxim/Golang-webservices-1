@@ -51,17 +51,15 @@ func SlowSearch(out io.Writer) {
 
 		browsers, ok := user["browsers"].([]interface{})
 		if !ok {
-			// log.Println("cant cast browsers")
 			continue
 		}
 
 		for _, browserRaw := range browsers {
 			browser, ok := browserRaw.(string)
 			if !ok {
-				// log.Println("cant cast browser to string")
 				continue
 			}
-			if ok, err := regexp.MatchString("Android", browser); ok && err == nil {		//62.12Mb
+			if strings.Contains( browser, "Android") {
 				isAndroid = true
 				notSeenBefore := true
 				for _, item := range seenBrowsers {
@@ -70,20 +68,10 @@ func SlowSearch(out io.Writer) {
 					}
 				}
 				if notSeenBefore {
-					// log.Printf("SLOW New browser: %s, first seen: %s", browser, user["name"])
 					seenBrowsers = append(seenBrowsers, browser)									//20.38kb 20.38kb
 					uniqueBrowsers++
 				}
-			}
-		}
-
-		for _, browserRaw := range browsers {
-			browser, ok := browserRaw.(string)
-			if !ok {
-				// log.Println("cant cast browser to string")
-				continue
-			}
-			if ok, err := regexp.MatchString("MSIE", browser); ok && err == nil {		//40.95Mb
+			} else if strings.Contains(browser, "MSIE" ){
 				isMSIE = true
 				notSeenBefore := true
 				for _, item := range seenBrowsers {
@@ -92,8 +80,7 @@ func SlowSearch(out io.Writer) {
 					}
 				}
 				if notSeenBefore {
-					// log.Printf("SLOW New browser: %s, first seen: %s", browser, user["name"])
-					seenBrowsers = append(seenBrowsers, browser)							//11.50kb 11.50 kb
+					seenBrowsers = append(seenBrowsers, browser)					// 10ms
 					uniqueBrowsers++
 				}
 			}
@@ -103,7 +90,6 @@ func SlowSearch(out io.Writer) {
 			continue
 		}
 
-		// log.Println("Android and MSIE user:", user["name"], user["email"])
 		email := r.ReplaceAllString(user["email"].(string), " [at] ")				//72.20kb
 		foundUsers += fmt.Sprintf("[%d] %s <%s>\n", i, user["name"], email)				//1.45mb 1.58mb
 	}
