@@ -95,16 +95,13 @@ func FastSearch(out io.Writer) {
 			continue
 		}
 		email := r.ReplaceAllString(user["email"].(string), " [at] ")			// 10 ms
-		foundUsers += fmt.Sprintf("[%d] %s <%s>\n", i, user["name"], email)	// 60 ms
+		foundUsers += strconv.Itoa(i) + user["name"].(string)+ email
 	}
 
 	fmt.Fprintln(out, "found users:\n"+foundUsers)									// 10 ms
 	fmt.Fprintln(out, "Total unique browsers", len(seenBrowsers))
 }
 
-//Solutions:
-//   Byte[] instead of string
-//	 Regex.MustCompile?
-//	 Make?
-//	 Append?
-//	 json.Unmarshal
+//easyJson
+//regexp.MustCompile("@")??
+//Sync.Pool to user
