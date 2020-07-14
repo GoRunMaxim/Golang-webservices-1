@@ -30,16 +30,18 @@ func SlowSearch(out io.Writer) {
 	uniqueBrowsers := 0
 	foundUsers := ""
 
-	lines := strings.Split(string(fileContents), "\n")		//4.92  5.96 mb
-
 	users := make([]map[string]interface{}, 0)
-	for _, line := range lines {
-		user := make(map[string]interface{})					//437 50 437.50 kb
-		err := json.Unmarshal([]byte(line), &user)				//4.53MB 18.25MB
+	byteLines := bytes.Split(fileContents, []byte("\n"))
+	for _, byteLine := range byteLines{
+		user := make(map[string]interface{})
+
+		err := json.Unmarshal(byteLine, &user)
+
 		if err != nil {
 			panic(err)
 		}
-		users = append(users, user)								//135.94kb 135.94kb
+		users = append(users, user)
+
 	}
 
 	for i, user := range users {
