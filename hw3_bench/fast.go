@@ -94,7 +94,7 @@ func FastSearch(out io.Writer) {
 			continue
 		}
 		email := r.ReplaceAllString(user["email"].(string), " [at] ")			// 10 ms
-		foundUsers += strconv.Itoa(i) + user["name"].(string)+ email
+		foundUsers += "[" + strconv.Itoa(i) + "] " + user["name"].(string) + " <" + email + ">" + "\n"
 	}
 
 	fmt.Fprintln(out, "found users:\n"+foundUsers)									// 10 ms
