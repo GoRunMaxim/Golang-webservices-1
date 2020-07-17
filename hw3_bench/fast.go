@@ -9,8 +9,6 @@ import (
 	"github.com/mailru/easyjson/jwriter"
 	"io"
 	"io/ioutil"
-	"os"
-	"regexp"
 	"strconv"
 	"strings"
 )
@@ -29,7 +27,7 @@ type User struct {
 	Country string		`json:"-"`
 	Name	string		`json:"name"`
 	Email	string		`json:"email"`
-	Job		string		`json:"-"`
+	Job	string		`json:"-"`
 	Phone	string		`json:"-"`
 	isUnique bool
 }
@@ -40,15 +38,9 @@ type Users struct{
 
 // вам надо написать более быструю оптимальную этой функции
 func FastSearch(out io.Writer) {
-	r := regexp.MustCompile("@")
-	file, err := os.Open(filePath)
-	if err != nil {
-		panic(err)
-	}
-	
 	seenBrowsers := []string{}
 
-	fileContents, err := ioutil.ReadAll(file)
+	fileContents, err := ioutil.ReadFile(filePath)
 	if err != nil {
 		panic(err)
 	}
@@ -94,8 +86,7 @@ for i, line := range byteLines{
 				continue
 			}
 			if (isAndroid && isMsie){
-				d.Email = r.ReplaceAllString(d.Email, " [at] ")
-				foundUsers += "[" + strconv.Itoa(i) + "] " + d.Name + " <" + d.Email + ">" + "\n"
+				foundUsers += "[" + strconv.Itoa(i) + "] " + d.Name + " <" + strings.ReplaceAll(d.Email, "@", " [at] ") + ">" + "\n"
 				break
 			}
 		}
