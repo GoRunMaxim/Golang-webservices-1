@@ -90,6 +90,8 @@ for i, line := range byteLines{
 					seenBrowsers = append(seenBrowsers, browser)
 					uniqueBrowsers++
 				}
+			}else{
+				continue
 			}
 			if (isAndroid && isMsie){
 				d.Email = r.ReplaceAllString(d.Email, " [at] ")
