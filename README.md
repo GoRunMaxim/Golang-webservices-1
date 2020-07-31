@@ -13,5 +13,6 @@ That repository contains all homework for the Golang course https://www.coursera
   Working with pprof: improving function using pprof tools
   https://github.com/GoRunMaxim/Golang-webservices-1/tree/master/hw3_bench
 
+P.S. Files .md contains the description to all homeworks
 
 
