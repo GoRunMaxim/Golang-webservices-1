@@ -24,12 +24,12 @@ type Users struct {
 }
 
 type XmlUser struct{
-	ID 		int		`xml:"id"`
+	ID 		int	`xml:"id"`
 	Guid 		string	`xml:"-"`
 	IsActive 	bool	`xml:"-"`
 	Balance 	string	`xml:"-"`
 	Picture 	string	`xml:"-"`
-	Age		int		`xml:"age"`
+	Age		int	`xml:"age"`
 	EyeColor	string	`xml:"-"`
 	FirstName 	string	`xml:"first_name"`
 	LastName	string	`xml:"last_name"`
@@ -49,7 +49,7 @@ type TestCase struct {
 	Response 	*SearchResponse
 	Error 		string
 	IsError 	bool
-	AccessToken string
+	AccessToken 	string
 }
 
 type By func(u1, u2 *User) bool
