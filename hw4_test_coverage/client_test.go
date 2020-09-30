@@ -20,16 +20,16 @@ const filePath string = "dataset.xml"
 
 type Users struct {
 	XMLName xml.Name	`xml:"root"`
-	Users   []XmlUser   `xml:"row"`
+	Users   []XmlUser   	`xml:"row"`
 }
 
 type XmlUser struct{
-	ID 			int		`xml:"id"`
+	ID 		int		`xml:"id"`
 	Guid 		string	`xml:"-"`
 	IsActive 	bool	`xml:"-"`
 	Balance 	string	`xml:"-"`
 	Picture 	string	`xml:"-"`
-	Age			int		`xml:"age"`
+	Age		int		`xml:"age"`
 	EyeColor	string	`xml:"-"`
 	FirstName 	string	`xml:"first_name"`
 	LastName	string	`xml:"last_name"`
