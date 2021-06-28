@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -8,31 +9,29 @@ import (
 	"os"
 	"regexp"
 	"strings"
-	// "log"
 )
 
-const filePath string = "./data/users.txt"
+const filePath = "./data/users.txt"
 
 func SlowSearch(out io.Writer) {
-	file, err := os.Open(filePath)					//1.06kb
+	file, err := os.Open(filePath)
 	if err != nil {
 		panic(err)
 	}
 
-	fileContents, err := ioutil.ReadAll(file)		//15,98Mb
+	fileContents, err := ioutil.ReadAll(file)
 	if err != nil {
 		panic(err)
 	}
 
-
-	r := regexp.MustCompile("@")				//5.96kb
+	r := regexp.MustCompile("@")
 	seenBrowsers := []string{}
 	uniqueBrowsers := 0
 	foundUsers := ""
 
 	users := make([]map[string]interface{}, 0)
 	byteLines := bytes.Split(fileContents, []byte("\n"))
-	for _, byteLine := range byteLines{
+	for _, byteLine := range byteLines {
 		user := make(map[string]interface{})
 
 		err := json.Unmarshal(byteLine, &user)
@@ -59,7 +58,7 @@ func SlowSearch(out io.Writer) {
 			if !ok {
 				continue
 			}
-			if strings.Contains( browser, "Android") {
+			if strings.Contains(browser, "Android") {
 				isAndroid = true
 				notSeenBefore := true
 				for _, item := range seenBrowsers {
@@ -68,10 +67,10 @@ func SlowSearch(out io.Writer) {
 					}
 				}
 				if notSeenBefore {
-					seenBrowsers = append(seenBrowsers, browser)									//20.38kb 20.38kb
+					seenBrowsers = append(seenBrowsers, browser)
 					uniqueBrowsers++
 				}
-			} else if strings.Contains(browser, "MSIE" ){
+			} else if strings.Contains(browser, "MSIE") {
 				isMSIE = true
 				notSeenBefore := true
 				for _, item := range seenBrowsers {
@@ -80,7 +79,7 @@ func SlowSearch(out io.Writer) {
 					}
 				}
 				if notSeenBefore {
-					seenBrowsers = append(seenBrowsers, browser)					// 10ms
+					seenBrowsers = append(seenBrowsers, browser)
 					uniqueBrowsers++
 				}
 			}
@@ -90,10 +89,10 @@ func SlowSearch(out io.Writer) {
 			continue
 		}
 
-		email := r.ReplaceAllString(user["email"].(string), " [at] ")				//72.20kb
-		foundUsers += fmt.Sprintf("[%d] %s <%s>\n", i, user["name"], email)				//1.45mb 1.58mb
+		email := r.ReplaceAllString(user["email"].(string), " [at] ")
+		foundUsers += fmt.Sprintf("[%d] %s <%s>\n", i, user["name"], email)
 	}
 
-	fmt.Fprintln(out, "found users:\n"+foundUsers)										//38.12kb 85.62kb
-	fmt.Fprintln(out, "Total unique browsers", len(seenBrowsers))					//80b 18.58kb
+	fmt.Fprintln(out, "found users:\n"+foundUsers)
+	fmt.Fprintln(out, "Total unique browsers", len(seenBrowsers))
 }
