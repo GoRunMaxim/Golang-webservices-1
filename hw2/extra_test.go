@@ -20,7 +20,7 @@ import (
 */
 
 func TestByIlia(t *testing.T) {
-	var recieved uint32
+	var received uint32
 	freeFlowJobs := []job{
 		job(func(in, out chan interface{}) {
 			out <- uint32(1)
@@ -37,7 +37,7 @@ func TestByIlia(t *testing.T) {
 		job(func(in, out chan interface{}) {
 			for val := range in {
 				fmt.Println("collected", val)
-				atomic.AddUint32(&recieved, val.(uint32))
+				atomic.AddUint32(&received, val.(uint32))
 			}
 		}),
 	}
@@ -54,7 +54,7 @@ func TestByIlia(t *testing.T) {
 		t.Errorf("execition too long\nGot: %s\nExpected: <%s", end, expectedTime)
 	}
 
-	if recieved != (1+3+4)*3 {
-		t.Errorf("f3 have not collected inputs, recieved = %d", recieved)
+	if received != (1+3+4)*3 {
+		t.Errorf("f3 have not collected inputs, received = %d", received)
 	}
 }

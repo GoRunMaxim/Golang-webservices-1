@@ -10,10 +10,6 @@ import (
 )
 
 type job func(in, out chan interface{})
-//Убрать конкатенацию в цикле - каждая итерация цикла приводит к размещению в памяти новой строки
-const (
-	MaxInputDataLen = 100
-)
 
 var (
 	dataSignerOverheat uint32 = 0
@@ -23,7 +19,7 @@ var (
 var OverheatLock = func() {
 	for {
 		if swapped := atomic.CompareAndSwapUint32(&dataSignerOverheat, 0, 1); !swapped {
-			fmt.Println("OverheatLock happend")
+			fmt.Println("OverheatLock happened")
 			time.Sleep(time.Second)
 		} else {
 			break
@@ -34,7 +30,7 @@ var OverheatLock = func() {
 var OverheatUnlock = func() {
 	for {
 		if swapped := atomic.CompareAndSwapUint32(&dataSignerOverheat, 1, 0); !swapped {
-			fmt.Println("OverheatUnlock happend")
+			fmt.Println("OverheatUnlock happened")
 			time.Sleep(time.Second)
 		} else {
 			break
